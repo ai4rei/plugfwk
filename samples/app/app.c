@@ -1,8 +1,13 @@
-#include <cstdio>
-#include <cstdlib>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+
+/* bool for C */
+typedef unsigned char bool;
+#define true ((bool)1==1)
+#define false ((bool)1!=1)
 
 #include <lplugfwk.h>
 
@@ -25,10 +30,10 @@ static IAppInterface const l_AppIfTemplate =
 
 static void __stdcall AppIAcquire(IAppInterface* const lpThis, IAppInterface** const lppOut)
 {
-    // We do not carry any dynamic data, so do not care about
+    /* We do not carry any dynamic data, so do not care about
     // reference-counting for this sample. In a real application,
     // all interfaces should be reference-counted and dynamically
-    // allocated, as presented in the framework.
+    // allocated, as presented in the framework. */
     lppOut[0] = lpThis;
 }
 
@@ -39,7 +44,7 @@ static void __stdcall AppIRelease(IAppInterface** const lppThis)
 
 static bool __stdcall AppIQueryInterface(IAppInterface* const lpThis, GUID const* const lpGuid, IPlugFwkUnknown** const lppOut)
 {
-    if(IsEqualGUID(lpGuid[0], GUID_IAppInterface))
+    if(IsEqualGUID(lpGuid, &GUID_IAppInterface))
     {
         lppOut[0] = (IPlugFwkUnknown*)&l_AppIfTemplate;
         return true;
@@ -60,22 +65,22 @@ int __cdecl main(int nArgc, char** lppszArgv)
 
     if(PluginFwkInit("..\\plugin"))
     {
-        // do something
+        /* do something */
         puts("Do something...");
 
-        // notify of foo
+        /* notify of foo */
         PluginFwkEvent(APP_EVENT_FOO, 0, NULL);
 
-        // do some more thing
+        /* do some more thing */
         puts("Do some more thing...");
 
-        // notify of bar
+        /* notify of bar */
         PluginFwkEvent(APP_EVENT_BAR, 0, NULL);
 
-        // finish up
+        /* finish up */
         puts("Finishing...");
 
-        // unload everything
+        /* unload everything */
         PluginFwkQuit();
     }
 

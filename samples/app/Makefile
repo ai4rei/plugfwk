@@ -7,5 +7,5 @@ clean :
     -del app.obj
     -del lplugfwk.obj
 
-app.exe : app.cpp ../../lplugfwk.cpp
+app.exe : app.c ../../lplugfwk.cpp
     cl $(CPPFLAGS) $**
